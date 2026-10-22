@@ -1,0 +1,9 @@
+{
+  "name": "Vejr i Aalborg",
+  "short_name": "Vejr",
+  "lang": "da",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#e8eef0",
+  "theme_color": "#1f4e5f"
+}

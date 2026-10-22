@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1f4e5f">
+  <title>Vejr App</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div id="loader" aria-hidden="true">
+    <div class="loader-sun"></div>
+    <div class="loader-cloud"></div>
+    <p class="loader-text">Henter vejret...</p>
+  </div>
+
+  <h1>Vejr i Aalborg</h1>
+
+  <p id="status" aria-live="polite"></p>
+
+  <main id="app"></main>
+
+  <footer>Data fra <a href="https://open-meteo.com/">Open-Meteo.com</a></footer>
+
+  <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
