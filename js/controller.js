@@ -7,9 +7,30 @@ let weather = null;
 let selectedDay = 0;
 
 
-export async function start() {
+export function start() {
 
   showStatus("Henter vejret...");
+
+  update();
+  updateEveryWholeHour();
+}
+
+
+// hent nyt vejr hver hele time (10:00, 11:00, 12:00 ...), mens siden er åben
+function updateEveryWholeHour() {
+
+  const now = new Date();
+  const next = new Date(now);
+  next.setHours(now.getHours() + 1, 0, 5, 0); // 5 sek. over, så vi er sikkert inde i den nye time
+
+  setTimeout(function () {
+    update();
+    updateEveryWholeHour();
+  }, next - now);
+}
+
+
+async function update() {
 
   try {
     weather = await getWeather();

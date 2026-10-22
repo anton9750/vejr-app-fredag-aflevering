@@ -1,5 +1,5 @@
 // skift versionen når filerne ændres, så gamle caches bliver slettet
-const STATIC_CACHE = "vejr-static-v4";
+const STATIC_CACHE = "vejr-static-v8";
 const API_CACHE = "vejr-api-v1";
 
 const FILES = [
@@ -13,6 +13,7 @@ const FILES = [
   "./js/controller.js",
   "./js/helpers/weatherCodes.js",
   "./js/helpers/windDirection.js",
+  "./js/helpers/weatherEffect.js",
   "./js/components/atoms.js",
   "./js/components/molecules.js",
   "./js/components/organisms.js"

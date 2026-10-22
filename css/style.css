@@ -7,7 +7,6 @@
   --blue: #1e88e5;
   --orange: #ff8c42;
   --ink: #12303a;
-  --glass: rgba(255, 255, 255, 0.82);
 }
 
 body {
@@ -46,22 +45,31 @@ main {
   gap: 1rem;
 }
 
-section {
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  padding: 1.25rem;
-  border-radius: 18px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(18, 48, 58, 0.15);
+/* vinklen skal registreres, så browseren kan animere den */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 
-section::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 5px;
-  background: linear-gradient(90deg, var(--green), var(--blue), var(--orange));
+section {
+  padding: 1.25rem;
+  border: 4px solid transparent;
+  border-radius: 18px;
+  /* indre flade + roterende farvekant */
+  background:
+    linear-gradient(#fbfdff, #fbfdff) padding-box,
+    conic-gradient(from var(--angle), var(--green), var(--blue), var(--orange), var(--green)) border-box;
+  box-shadow: 0 10px 30px rgba(18, 48, 58, 0.15);
+  animation: spin-border 6s linear infinite;
+}
+
+@keyframes spin-border {
+  to { --angle: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section { animation: none; }
 }
 
 h2 {
@@ -260,4 +268,55 @@ a:hover {
 
 @media (prefers-reduced-motion: reduce) {
   #loader * { animation: none; }
+}
+
+/* Vejreffekt i baggrunden */
+#weather-fx {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#weather-fx.rain {
+  background: linear-gradient(180deg, rgba(30, 60, 90, 0.35), transparent 70%);
+}
+
+.drop {
+  position: absolute;
+  top: -10%;
+  width: 2px;
+  height: 70px;
+  border-radius: 2px;
+  background: linear-gradient(transparent, rgba(30, 100, 180, 0.6));
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to { transform: translateY(120vh); }
+}
+
+#weather-fx.sun {
+  background: radial-gradient(circle at 0% 0%, rgba(255, 210, 120, 0.7), transparent 50%);
+}
+
+.ray {
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 220, 140, 0.45), transparent);
+  transform: rotate(25deg);
+  animation: sweep 15s linear infinite;
+}
+
+@keyframes sweep {
+  to { left: 140%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drop, .ray { animation: none; }
+  .drop { display: none; }
 }

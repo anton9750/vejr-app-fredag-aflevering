@@ -1,6 +1,7 @@
 // VIEW - sætter HTML ind på siden
 
 import { nowSection, forecastSection, daySection } from "./components/organisms.js";
+import { showWeatherEffect } from "./helpers/weatherEffect.js";
 
 const app = document.getElementById("app");
 const status = document.getElementById("status");
@@ -15,6 +16,8 @@ export function render(weather, selectedDay, onDayClick) {
 
   // husk om brugeren stod på en dag-knap, så fokus ikke forsvinder
   const hadFocus = document.activeElement !== null && document.activeElement.classList.contains("day-card");
+
+  showWeatherEffect(weather.now.code);
 
   app.innerHTML =
     nowSection(weather.now) +

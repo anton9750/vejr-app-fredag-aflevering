@@ -8,7 +8,17 @@ const API_URL = "https://api.open-meteo.com/v1/forecast"
   + "&timezone=auto&forecast_days=5&wind_speed_unit=ms";
 
 
+const STORAGE_KEY = "vejr-data";
+
+
 export async function getWeather() {
+
+  // brug de gemte data, hvis de er hentet i den samme hele time (fx mellem 10:00 og 10:59)
+  const saved = loadSaved();
+
+  if (saved && sameHour(saved.fetchedAt, Date.now())) {
+    return makeDays(saved.data);
+  }
 
   const response = await fetch(API_URL);
 
@@ -18,7 +28,28 @@ export async function getWeather() {
 
   const data = await response.json();
 
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ fetchedAt: Date.now(), data: data }));
+  } catch (error) {
+    // localStorage kan være slået fra - så henter vi bare hver gang
+  }
+
   return makeDays(data);
+}
+
+
+function sameHour(a, b) {
+  const hour = 60 * 60 * 1000;
+  return Math.floor(a / hour) === Math.floor(b / hour);
+}
+
+
+function loadSaved() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY));
+  } catch (error) {
+    return null;
+  }
 }
 
 
